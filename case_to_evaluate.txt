@@ -1,0 +1,5 @@
+1. Chia theo label
+- Positive pair
+- Negative pair
+
+2. chia theo độ khó của cặp ảnh
