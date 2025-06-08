@@ -1,9 +1,13 @@
 import torch
 from llm_service import QwenService, GPTService, LlamaService
 from get_arch import init_lvlm_model
-class FacVerification:
-    def __init__(self, vlm_model, image_token,
+
+class FaceVerification:
+    def __init__(self, 
+                 vlm_model, 
+                 image_token,
                  llm_model=None):
+        
         self.vlm_model = vlm_model
         self.image_token = image_token
         self.llm_model = llm_model

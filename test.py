@@ -3,6 +3,7 @@ from utils import CustomDataset
 from get_arch import init_lvlm_model
 from llm_service import QwenService, GPTService, LlamaService
 
+
 # init_dataset
 dataset = CustomDataset(root_dir=r"samples", 
                         type="different")
@@ -21,4 +22,5 @@ for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # simple answer
     result = traditional_controller.simple_answer(img1, img2)
     print("Simple answer: ", result)
+    
     
