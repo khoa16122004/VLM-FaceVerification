@@ -9,7 +9,7 @@ dataset = CustomDataset(root_dir=r"samples",
                         type="different")
 
 # init model
-lvlm_model, image_token, special_token =init_lvlm_model(pretained="llava-next-interleave-qwen-7b", 
+lvlm_model, image_token, special_token =init_lvlm_model(pretrained="llava-next-interleave-qwen-7b", 
                                                         model_name="llava_qwen")
 
 llm_model = LlamaService(model_name="Llama-7b")
