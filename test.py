@@ -21,3 +21,4 @@ for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # simple answer
     result = traditional_controller.simple_answer(img1, img2)
     print("Simple answer: ", result)
+    
