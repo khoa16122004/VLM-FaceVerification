@@ -4,6 +4,7 @@ from utils import CustomDataset
 from get_arch import init_lvlm_model
 from PIL import Image
 import torch
+
 # Caching model and dataset
 @st.cache_resource
 def load_controller():
@@ -19,10 +20,14 @@ def load_controller():
     controller = FaceVerification(vlm_model=vlm_model, llm_model=llm_model)
     return controller, dataset
 
-# UI
+# UI setup
 st.set_page_config(page_title="Face Verification Demo", layout="centered")
-
 st.title("🔍 Face Verification Inference")
+
+# Load model & dataset
+traditional_controller, dataset = load_controller()
+
+# Sample selection
 sample_id = st.number_input("Enter sample ID:", min_value=0, max_value=len(dataset)-1, step=1)
 
 # Load sample
@@ -43,6 +48,7 @@ st.markdown("---")
 
 # Chọn chế độ inference
 mode = st.radio("Select Inference Mode:", ["Direct Answer", "Explain Answer"])
+
 if st.button("Run Inference"):
     direct = 1 if mode == "Direct Answer" else 0
     response = traditional_controller.simple_answer(img1, img2, direct_return=direct)
