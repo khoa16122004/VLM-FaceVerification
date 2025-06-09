@@ -132,20 +132,19 @@ class DetectiveGame:
         self.max_rounds = max_rounds
 
         self.instruction_prompt = (
-            "🎮 DETECTIVE CHALLENGE: Determine if two face images belong to the same person by asking YES/NO questions.\n\n"
-            "🕵️ Your Role: You're a detective who **cannot see the images**. Each witness sees a **different image**.\n"
-            "Your task is to ask both witnesses the **same yes/no question** about **biometric facial features**.\n\n"
-            "🎯 GAME RULES:\n"
-            "- Only ask clear yes/no questions.\n"
-            "- Focus on **objective facial features** like eye shape, nose length, jaw structure, etc.\n"
-            "- Do NOT ask subjective or comparative questions.\n"
-            "- Avoid questions that cannot be answered from a single image (e.g., 'Is this person the same as the other?').\n"
-            "- After each question, compare their answers. If you're confident, say 'None' to stop.\n\n"
-            "🧠 Example questions:\n"
-            "- Does the person have a sharp jawline?\n"
-            "- Are the eyes almond-shaped?\n"
-            "- Does the person have a wide nose?\n"
-            "- Is the upper lip significantly thicker than the lower lip?\n"
+            "🎮 DETECTIVE CHALLENGE: Decide if two face images show the same person by asking YES/NO questions.\n\n"
+            "🕵️ You are a detective who cannot see the images. Each witness sees a different face.\n"
+            "Ask both witnesses the **same yes/no question** based on visible **facial features**.\n\n"
+            "🎯 RULES:\n"
+            "- Ask only **objective yes/no** questions.\n"
+            "- Focus on **biometric traits** like:\n"
+            "  • Skin tone\n"
+            "  • Ethnic features (e.g., monolid eyes, broad nose)\n"
+            "  • Hair/facial hair\n"
+            "  • Eye, nose, lip, jaw shape\n"
+            "- Avoid subjective or comparative questions.\n"
+            "- Stop by saying 'None' when confident enough to decide.\n"
+            "- ⚠️ Only return the question. Do not explain or add anything else.\n"
         )
 
         self.summarize_prompt = (
