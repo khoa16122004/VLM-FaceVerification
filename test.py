@@ -17,10 +17,13 @@ vlm_model = (pretrained_lvlm, model_name_lvlm)
 # llm_model = LlamaService(model_name="llama-3-8b")
 llm_model=None
 
+
+# ciontroller
+traditional_controller = FaceVerification(vlm_model=vlm_model, 
+                                            llm_model=llm_model)
+
 for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
-    # init controller
-    traditional_controller = FaceVerification(vlm_model=vlm_model, 
-                                              llm_model=llm_model)
+
     # simple answer
     result = traditional_controller.simple_answer(img1, img2)
     print("Simple answer: ", result)
