@@ -13,7 +13,7 @@ pretrained_lvlm = "llava-next-interleave-qwen-7b"
 model_name_lvlm = "llava_qwen"
 vlm_model = (pretrained_lvlm, model_name_lvlm)
 
-llm_model = ("llama-3-8b", )
+llm_model = ("Llama-7b", )
 # llm_model = LlamaService(model_name="llama-3-8b")
 # llm_model=None
 
