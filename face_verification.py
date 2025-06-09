@@ -122,7 +122,7 @@ class DetectiveGame:
     def __init__(self, 
                  vlm_model,  # (pretrained, model_name)
                  llm_model,  # (model_name,)
-                 max_rounds=3):
+                 max_rounds=5):
         self.vlm_model, self.image_token, self.special_token = init_lvlm_model(
             pretrained=vlm_model[0], 
             model_name=vlm_model[1]
