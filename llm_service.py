@@ -39,7 +39,7 @@ class LlamaService:
             "vicuna-7b": (LlamaForCausalLM, LlamaTokenizer, True, "vicuna-7b-v1.5", ""),
             "vicuna-13b": (LlamaForCausalLM, LlamaTokenizer, True, "vicuna-13b-v1.5", ""),
             "gemma-7b": (AutoModelForCausalLM, AutoTokenizer, True, "gemma-7b-it", ""),
-            "llama-3-8b": (AutoModelForCausalLM, AutoTokenizer, True, "Meta-Llama-3-8B-Instruct", "models--meta-llama")  # new
+            "llama-3-8b": (AutoModelForCausalLM, AutoTokenizer, True, "Meta-Llama-3-8B-Instruct", "meta-llama")  # new
         }
 
         self.model_name = model_name
