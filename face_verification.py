@@ -50,28 +50,30 @@ class FaceVerification:
             "Do the facial structures, such as the jaw and chin, appear similar?",
             "Do the individuals have similar eyebrow shapes, density, or gaps between brows?"
         ]
+        
         selection_voting = (
-            "You will receive multiple brief opinions on a binary question.",
-            "Treat these as votes and determine the majority viewpoint.",
+            "You will receive multiple brief opinions on a binary question.\n"
+            "Treat these as votes and determine the majority viewpoint.\n"
             "Summarize the overall consensus in a short sentence, focusing only on the main idea."
         )
         
         conclusion_summarize_prompt = (
             "Summarize the following multiple responses into a concise consensus statement:"
         )
-    
-    
+
         conclusion_prompt_template = (
             "You are given two face images and a summary of expert opinions comparing their biometric features, "
             "Based on this summary and the visual content of the two images, provide a conclusion about whether they likely "
+            "Images: {img_token1} and {img_token2}\n\n"
             "Summary of expert responses:\n"
             "{responses}\n\n"
             "Your conclusion:"
         )
-        
+
+
         all_question_responses = []
         selection_responses = []
-        
+
         for question in questions:
             prompt = f"{question} {self.image_token} {self.image_token}"
             outputs = self.vlm_model.inference(
@@ -82,24 +84,28 @@ class FaceVerification:
                 temperature=temparature
             )
             all_question_responses.append(outputs)
-            
+
             prompt_for_llm = f"Question: {question}\nResponses:\n" + "\n".join(f"- {o}" for o in outputs)
             output = self.llm_model.text_to_text(
                 system_prompt=selection_voting,
                 prompt=prompt_for_llm
             )
             selection_responses.append(output)
-        
-        # Bước tóm tắt selection_responses bằng LLM trước
+
+        # Bước tóm tắt selection_responses bằng LLM
         responses_text = "\n".join(f"- {resp}" for resp in selection_responses)
         summarized_responses = self.llm_model.text_to_text(
-            system_prompt=conclusion_summarize_prompt,  # hoặc bạn có thể để prompt tùy ý cho LLM tóm tắt
+            system_prompt=conclusion_summarize_prompt,
             prompt=responses_text
         )
-        
-        # Rồi dùng kết quả tóm tắt này để làm prompt cho VLM kết luận
-        final_prompt = conclusion_prompt_template.format(responses=summarized_responses)
-        
+
+        # Tạo prompt kết luận
+        final_prompt = conclusion_prompt_template.format(
+            responses=summarized_responses,
+            img_token1=self.image_token,
+            img_token2=self.image_token
+        )
+
         final_decision = self.vlm_model.inference(
             qs=final_prompt,
             img_files=[img1, img2],
@@ -107,8 +113,9 @@ class FaceVerification:
             do_sample=False,
             temperature=0
         )[0].replace("\n", "")
-        
+
         return final_decision, all_question_responses, selection_responses, summarized_responses
+
 
 
 
