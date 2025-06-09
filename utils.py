@@ -90,9 +90,9 @@ def save_json(filepath, data):
 
 
 
-lfw = LFW(
-    IMG_DIR=r"D:\VLM-FaceVerification\lfw\images",
-    PAIR_PATH=r"D:\VLM-FaceVerification\lfw\pairs.txt",
-)
-print(len(lfw))
-print(lfw[0])
+# lfw = LFW(
+#     IMG_DIR=r"D:\VLM-FaceVerification\lfw\images",
+#     PAIR_PATH=r"D:\VLM-FaceVerification\lfw\pairs.txt",
+# )
+# print(len(lfw))
+# print(lfw[0])
