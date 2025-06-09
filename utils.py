@@ -2,6 +2,7 @@ import os
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from PIL import Image
+import json
 
 class CustomDataset(Dataset):
     def __init__(self, root_dir, type="same"):
@@ -24,5 +25,74 @@ class CustomDataset(Dataset):
         img1 = Image.open(img1_path).convert("RGB")
         img2 = Image.open(img2_path).convert("RGB")
         return label, case_name, (img1, img2), (img1_path, img2_path)
+    
+    
+class LFW(Dataset):        
+    def __init__(self, 
+                 IMG_DIR: str,
+                 PAIR_PATH: str,
+                 transform=None,
+                 ):
+        
+        with open(PAIR_PATH, "r") as f:
+            f.readline()
+            lines = [line.strip().split("\t") for line in f.readlines()]
+         
+        self.lines = lines
+        self.IMG_DIR = IMG_DIR
+        self.transform = transform
+         
+    def __len__(self):
+        return len(self.lines)
+
+    def __getitem__(self, idx):
+        line = self.lines[idx]
+        if len(line) == 3:
+            first_iden_name, first_id, second_id = line
+            second_iden_name = first_iden_name 
+            label = 0           
+        elif len(line) == 4:
+            first_iden_name, first_id, second_iden_name, second_id = line
+            label = 1
+        
+        first_name = f"{first_iden_name}_{first_id.zfill(4)}.jpg" 
+        first_path = os.path.join(self.IMG_DIR, first_iden_name, first_name)        
+        
+        second_name = f"{second_iden_name}_{second_id.zfill(4)}.jpg"
+        second_path =  os.path.join(self.IMG_DIR, second_iden_name, second_name)
+        
+        
+        first_image = Image.open(first_path).convert("RGB")
+        second_image = Image.open(second_path).convert("RGB")
+        
+        
+        if self.transform:
+            first_image = self.transform(first_image)
+            second_image = self.transform(second_image) 
+
+                
+        return first_image, second_image, label
+        
+        
         
 
+
+def ensure_dir(path):
+    os.makedirs(path, exist_ok=True)
+
+def save_txt(filepath, content):
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(str(content))
+
+def save_json(filepath, data):
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+
+
+lfw = LFW(
+    IMG_DIR=r"D:\VLM-FaceVerification\lfw\images",
+    PAIR_PATH=r"D:\VLM-FaceVerification\lfw\pairs.txt",
+)
+print(len(lfw))
+print(lfw[0])
