@@ -37,6 +37,7 @@ for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # result = traditional_controller.simple_answer(img1, img2, direct_return=0)
     # print("Explain answer: ", result)
     final_decision, all_question_responses, selection_responses, summarized_responses = traditional_controller.sampling_answer(img1, img2)
+    print("Final decision: ", final_decision)
     input("Press Enter to continue...")
     # # sampling answer
     # final_decision, all_question_responses, selection_responses = traditional_controller.sampling_answer(img1, img2)
