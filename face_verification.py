@@ -61,11 +61,12 @@ class FaceVerification:
         )
         
         conclusion_prompt_template = (
-            "Given the responses describing facial features in two images, treat each response as a 'vote' indicating whether the images depict the same person or different individuals.\n"
-            "Assign greater weight to responses that mention differences in key biometric features (e.g., eye shape, jawline, nose structure).\n"
-            "Based on the overall weighted vote, determine whether the images likely show the same person or not.\n"
-            "Here are the responses:\n"
-            "{responses}"
+            "You are given two face images and a summary of expert opinions comparing their biometric features "
+            "(such as eyes, nose, mouth, jawline, and eyebrows).\n\n"
+            "Based on this information, determine if these two images show the same person or not.\n\n"
+            "Summary of expert responses:\n"
+            "{responses}\n\n"
+            "Final decision (only answer with 'Same person' or 'Different people'):"
         )
         
         all_question_responses = []
