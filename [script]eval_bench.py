@@ -25,14 +25,14 @@ def main(args):
         raise ValueError("Invalid controller type")
 
     # Output dir
-    output_root = args.output_dir
+    output_root = "game_model={args.pretrained_lvlm}_llm={args.llm_model}"
     ensure_dir(output_root)
 
     for i in tqdm(range(len(dataset)), desc="Processing Samples"):
         img1, img2, label = dataset[i]
 
         final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2)
-
+        
         sample_dir = os.path.join(output_root, f"sample_{i}")
         ensure_dir(sample_dir)
 
@@ -46,11 +46,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--img_dir", type=str, help="Path to image directory", default="lfw/lfw/images")
     parser.add_argument("--pair_path", type=str, help="Path to LFW pair.txt file", default="lfw/lfw/pairs.txt")
-    parser.add_argument("--pretrained_lvlm", type=str, default="llava-next-interleave-qwen-7b")
+    parser.add_argument("--pretrained_lvlm", type=str, default="llava-onevision-qwen2-7b-ov")
     parser.add_argument("--model_name_lvlm", type=str, default="llava_qwen")
     parser.add_argument("--llm_model", type=str, default="Llama-7b")
     parser.add_argument("--controller", choices=["traditional", "detective"], default="traditional")
-    parser.add_argument("--output_dir", type=str, default="logs", help="Directory to save logs")
 
     args = parser.parse_args()
     main(args)
