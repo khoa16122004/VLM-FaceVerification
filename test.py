@@ -8,17 +8,18 @@ from llm_service import QwenService, GPTService, LlamaService
 dataset = CustomDataset(root_dir=r"samples", 
                         type="different")
 
-# init model
-lvlm_model, image_token, special_token =init_lvlm_model(pretrained="llava-next-interleave-qwen-7b", 
-                                                        model_name="llava_qwen")
+# init model\
+pretrained_lvlm = "llava-next-interleave-qwen-7b"
+model_name_lvlm = "llava_qwen"
+vlm_model = (pretrained_lvlm, model_name_lvlm)
 
+# llm_model = ("llama-3-8b", )
 # llm_model = LlamaService(model_name="llama-3-8b")
 llm_model=None
 
 for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # init controller
-    traditional_controller = FaceVerification(vlm_model=lvlm_model, 
-                                              image_token=image_token, 
+    traditional_controller = FaceVerification(vlm_model=vlm_model, 
                                               llm_model=llm_model)
     # simple answer
     result = traditional_controller.simple_answer(img1, img2)

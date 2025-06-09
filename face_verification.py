@@ -4,13 +4,14 @@ from get_arch import init_lvlm_model
 
 class FaceVerification:
     def __init__(self, 
-                 vlm_model, 
-                 image_token,
-                 llm_model=None):
+                 vlm_model, # (pretrained, model_name) 
+                 llm_model=None): # (model_name,)
         
-        self.vlm_model = vlm_model
+        self.vlm_model, self.image_token, self.special_token = init_lvlm_model(pretrained=vlm_model[0], 
+                                                                              model_name=vlm_model[1])
         self.image_token = image_token
-        self.llm_model = llm_model
+        if llm_model:
+            self.llm_model = LlamaService(model_name=llm_model[0])
         
     @torch.no_grad()
     def simple_answer(self, img1, img2, direct_return=1):
