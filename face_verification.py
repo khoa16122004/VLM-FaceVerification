@@ -13,18 +13,21 @@ class FaceVerification:
             self.llm_model = LlamaService(model_name=llm_model[0])
         
     @torch.no_grad()
+    @torch.no_grad()
     def simple_answer(self, img1, img2, direct_return=1):
         if direct_return == 1:
             prompt = (
-                f"Analyze the following two facial images carefully and determine with certainty whether they show the same person. "
-                f"You must answer only one of the following options, placed clearly within curly braces: {{Same}} or {{Different}}. "
-                f"Do not refuse to answer. No explanations are needed. {self.image_token} {self.image_token}"
+                f"Carefully examine the two facial images and determine if they show the same person. "
+                f"You must respond in the exact format: {{Same}} {{None}} or {{Different}} {{None}}. "
+                f"Do not provide any explanation. You are not allowed to refuse. "
+                f"{self.image_token} {self.image_token}"
             )
         else:
             prompt = (
-                f"Analyze the following two facial images and determine if they belong to the same person. "
-                f"Provide a clear explanation for your decision, and conclude your answer with either {{Same}} or {{Different}}. "
-                f"You are not allowed to refuse. {self.image_token} {self.image_token}"
+                f"Carefully examine the two facial images and determine if they show the same person. "
+                f"You must respond in the exact format: {{Same}} {{your explanation}} or {{Different}} {{your explanation}}. "
+                f"You are not allowed to refuse or skip the answer. "
+                f"{self.image_token} {self.image_token}"
             )
 
         response = self.vlm_model.inference(
@@ -36,6 +39,7 @@ class FaceVerification:
         )[0].replace("\n", "")
 
         return response
+
     
     @torch.no_grad()
     def sampling_answer(self, img1, img2, num_samples=3, temparature=0.8):
