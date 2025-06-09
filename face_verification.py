@@ -198,7 +198,7 @@ class DetectiveGame:
             next_question = self.llm_model.text_to_text(
                 system_prompt=self.instruction_prompt,
                 prompt=dialogue + "\nWhat is your next yes/no question? If you're confident, say 'None'."
-            )
+            )[0]
             print(next_question)
             chat_context.append(("What is your next yes/no question? If you're confident, say 'None'.", next_question))
             round_count += 1
