@@ -149,9 +149,9 @@ class DetectiveGame:
 
 
         self.summarize_prompt = (
-            "Given the detective’s question-and-answer history, summarize how similar or different the witnesses' answers were. "
-            "Highlight whether their responses suggest **biometric similarity** (e.g., same eye shape, jawline) or not. "
-            "Be concise and focus on **whether the facial features described appear to match** across both images."
+            "Summarize briefly how similar or different the witnesses' yes/no answers were. "
+            "Focus on whether their responses indicate matching facial features (e.g., eye shape, jawline). "
+            "Be concise."
         )
 
         self.final_vlm_prompt_template = (
