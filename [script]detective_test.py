@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
-from detective_game import DetectiveGame  # lớp đã thiết kế
-from dataset import CustomDataset  # class dataset của bạn
+from face_verification import DetectiveGame  # lớp đã thiết kế
+from utils import CustomDataset  # class dataset của bạn
 import random
 
 # 🖼️ Load dataset
