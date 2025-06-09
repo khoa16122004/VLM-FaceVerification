@@ -25,7 +25,7 @@ class FaceVerification:
         else:
             prompt = (
                 f"Look at the two facial images and determine if they show the same person. "
-                f"You must provide both your answer and the reason for your decision. "
+                f"You must provide both YOUR ANSWER and REASON for your decision. "
                 f"Respond strictly in this format: {{Same}} {{your explanation}} or {{Different}} {{your explanation}}. "
                 f"Do not refuse to answer. Explanation must be included inside the double curly braces. "
                 f"{self.image_token} {self.image_token}"
