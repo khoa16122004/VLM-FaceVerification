@@ -91,7 +91,7 @@ class FaceVerification:
         
         # Bước tóm tắt selection_responses bằng LLM trước
         responses_text = "\n".join(f"- {resp}" for resp in selection_responses)
-        summarized_responses = self.llm.text_to_text(
+        summarized_responses = self.llm_model.text_to_text(
             system_prompt=conclusion_summarize_prompt,  # hoặc bạn có thể để prompt tùy ý cho LLM tóm tắt
             prompt=responses_text
         )
@@ -183,7 +183,7 @@ Avoid open-ended or descriptive questions.
             chat_context.append((current_question, f"Witness 1: {answer_1}\nWitness 2: {answer_2}"))
 
             # Get next detective question from LLM
-            next_question = self.llm.chat(chat_context, "What is your next yes/no question? If you're confident, say 'None'.")
+            next_question = self.llm_model.chat(chat_context, "What is your next yes/no question? If you're confident, say 'None'.")
             chat_context.append(("What is your next yes/no question? If you're confident, say 'None'.", next_question))
 
             round_counting += 1
