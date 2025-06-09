@@ -1,12 +1,15 @@
 import zipfile
 import os
 
-def zip_folder(folder_path, output_zip_path):
-    with zipfile.ZipFile(output_zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        for root, _, files in os.walk(folder_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                arcname = os.path.relpath(file_path, folder_path)
-                zipf.write(file_path, arcname)
+def unzip_lfw(zip_path="lfw.zip", extract_to="lfw"):
+    if not os.path.exists(zip_path):
+        raise FileNotFoundError(f"Zip file not found: {zip_path}")
 
-zip_folder('lfw.zip', 'lfw')
+    os.makedirs(extract_to, exist_ok=True)
+
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)
+        print(f"✅ Extracted '{zip_path}' to '{extract_to}'")
+
+if __name__ == "__main__":
+    unzip_lfw()
