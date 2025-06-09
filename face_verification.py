@@ -16,19 +16,15 @@ class FaceVerification:
     def simple_answer(self, img1, img2, direct_return=1):
         if direct_return == 1:
             prompt = (
-                f"Look at the two facial images and determine if they show the same person. "
-                f"Only respond with your answer, no explanation is allowed. "
-                f"You must strictly use this format: {{Same}} {{None}} or {{Different}} {{None}}. "
-                f"Do not refuse to answer under any circumstance. "
-                f"{self.image_token} {self.image_token}"
+                f"Do these two facial images show the same person? "
+                f"Only answer with 'Same' or 'Different'. Do not explain. "
+                f"You must answer. {self.image_token} {self.image_token}"
             )
         else:
             prompt = (
-                f"Look at the two facial images and determine if they show the same person. "
-                f"You must provide both YOUR ANSWER and REASON for your decision. "
-                f"Respond strictly in this format: {{Same}} {{your explanation}} or {{Different}} {{your explanation}}. "
-                f"Do not refuse to answer. Explanation must be included inside the double curly braces. "
-                f"{self.image_token} {self.image_token}"
+                f"Do these two facial images show the same person? "
+                f"Answer with 'Same' or 'Different' and explain your reasoning. "
+                f"You must answer. {self.image_token} {self.image_token}"
             )
 
         response = self.vlm_model.inference(
@@ -40,6 +36,7 @@ class FaceVerification:
         )[0].replace("\n", "")
 
         return response
+
 
     
     @torch.no_grad()
