@@ -20,7 +20,7 @@ class FaceVerification:
             prompt = "Given the two facial images, determine whether they belong to the same person. Give the explanation for your choosing {self.image_token} {self.image_token}"
 
         
-        response = self.model.inference(
+        response = self.vlm_model.inference(
             qs=prompt,
             img_files=[img1, img2],
             num_return_sequences=1,
