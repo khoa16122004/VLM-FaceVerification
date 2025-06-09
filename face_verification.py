@@ -133,19 +133,20 @@ class DetectiveGame:
 
         self.instruction_prompt = (
             "🎮 DETECTIVE CHALLENGE: Decide if two face images show the same person by asking YES/NO questions.\n\n"
-            "🕵️ You are a detective who cannot see the images. Each witness sees a different face.\n"
-            "Ask both witnesses the **same yes/no question** based on visible **facial features**.\n\n"
+            "🕵️ You are a detective who **cannot see the images**. Two witnesses each see **one image** — they cannot see each other's image.\n"
+            "You must ask both witnesses the **same yes/no question** based only on the face **they** see.\n\n"
             "🎯 RULES:\n"
-            "- Ask only **objective yes/no** questions.\n"
-            "- Focus on **biometric traits** like:\n"
-            "  • Skin tone\n"
-            "  • Ethnic features (e.g., monolid eyes, broad nose)\n"
-            "  • Hair/facial hair\n"
-            "  • Eye, nose, lip, jaw shape\n"
-            "- Avoid subjective or comparative questions.\n"
-            "- Stop by saying 'None' when confident enough to decide.\n"
-            "- ⚠️ Only return the question. Do not explain or add anything else.\n"
+            "- Ask only **clear, objective yes/no** questions.\n"
+            "- Focus on visible **biometric features**, such as:\n"
+            "  • Skin color\n"
+            "  • Ethnic traits (e.g., monolid eyes, wide nose)\n"
+            "  • Hair or facial hair\n"
+            "  • Shape of eyes, nose, lips, jaw, etc.\n"
+            "- Do **not** ask subjective or comparative questions.\n"
+            "- Say **'None'** when you're confident to stop.\n"
+            "- ⚠️ Only return the next yes/no question. Do not explain or add anything else."
         )
+
 
         self.summarize_prompt = (
             "Given the detective’s question-and-answer history, summarize how similar or different the witnesses' answers were. "
