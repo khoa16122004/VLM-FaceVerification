@@ -56,20 +56,22 @@ class FaceVerification:
             "Summarize the overall consensus in a short sentence, focusing only on the main idea."
         )
         
+        conclusion_summarize_prompt = (
+            "Summarize the following multiple responses into a concise consensus statement:"
+        )
+        
         conclusion_prompt_template = (
-            "Given the responses describing facial features in two images, treat each response as a 'vote' indicating whether the images depict the same person or different individuals."
-            "Assign greater weight to responses that mention differences in key biometric features (e.g., eye shape, jawline, nose structure)."
-            "Based on the overall weighted vote, determine whether the images likely show the same person or not."
-            "Here are the responses:"
+            "Given the responses describing facial features in two images, treat each response as a 'vote' indicating whether the images depict the same person or different individuals.\n"
+            "Assign greater weight to responses that mention differences in key biometric features (e.g., eye shape, jawline, nose structure).\n"
+            "Based on the overall weighted vote, determine whether the images likely show the same person or not.\n"
+            "Here are the responses:\n"
             "{responses}"
         )
         
-        
-        # sampling proccess
         all_question_responses = []
         selection_responses = []
+        
         for question in questions:
-            # sampling each question
             prompt = f"{question} {self.image_token} {self.image_token}"
             outputs = self.lvlm.inference(
                 qs=prompt,
@@ -79,26 +81,37 @@ class FaceVerification:
                 temperature=temparature
             )
             all_question_responses.append(outputs)
-        
-            # llm decision
-            prompt = f"Question: {question}\n Responses: {outputs}\n"
+            
+            prompt_for_llm = f"Question: {question}\nResponses:\n" + "\n".join(f"- {o}" for o in outputs)
             output = self.llm.text_to_text(
                 system_prompt=selection_voting,
-                prompt=prompt
+                prompt=prompt_for_llm
             )
-            
-            
             selection_responses.append(output)
-            
+        
+        # Bước tóm tắt selection_responses bằng LLM trước
+        responses_text = "\n".join(f"- {resp}" for resp in selection_responses)
+        summary_prompt = conclusion_summarize_prompt + "\n" + responses_text
+        summarized_responses = self.llm.text_to_text(
+            system_prompt=None,  # hoặc bạn có thể để prompt tùy ý cho LLM tóm tắt
+            prompt=summary_prompt
+        )
+        
+        # Rồi dùng kết quả tóm tắt này để làm prompt cho VLM kết luận
+        final_prompt = conclusion_prompt_template.format(responses=summarized_responses)
+        
         final_decision = self.lvlm.inference(
-            qs=conclusion_prompt_template.format(responses=output),
+            qs=final_prompt,
             img_files=[img1, img2],
             num_return_sequences=1,
             do_sample=False,
             temperature=0
         )[0].replace("\n", "")
         
-        return final_decision, all_question_responses, selection_responses
+        return final_decision, all_question_responses, selection_responses, summarized_responses
+
+
+
     
 
 class DetectiveGame:
