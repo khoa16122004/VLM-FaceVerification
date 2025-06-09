@@ -9,7 +9,6 @@ class FaceVerification:
         
         self.vlm_model, self.image_token, self.special_token = init_lvlm_model(pretrained=vlm_model[0], 
                                                                               model_name=vlm_model[1])
-        self.image_token = image_token
         if llm_model:
             self.llm_model = LlamaService(model_name=llm_model[0])
         
