@@ -12,7 +12,8 @@ dataset = CustomDataset(root_dir=r"samples",
 lvlm_model, image_token, special_token =init_lvlm_model(pretrained="llava-next-interleave-qwen-7b", 
                                                         model_name="llava_qwen")
 
-llm_model = LlamaService(model_name="llama-3-8b")
+# llm_model = LlamaService(model_name="llama-3-8b")
+llm_model=None
 
 for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # init controller
@@ -27,8 +28,8 @@ for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     result = traditional_controller.simple_answer(img1, img2, direct_return=0)
     print("Explain answer: ", result)
     
-    # sampling answer
-    final_decision, all_question_responses, selection_responses = traditional_controller.sampling_answer(img1, img2)
-    print("Sampling decision: ", final_decision)
-    break    
+    # # sampling answer
+    # final_decision, all_question_responses, selection_responses = traditional_controller.sampling_answer(img1, img2)
+    # print("Sampling decision: ", final_decision)
+    # break    
     
