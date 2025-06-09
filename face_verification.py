@@ -73,7 +73,7 @@ class FaceVerification:
         
         for question in questions:
             prompt = f"{question} {self.image_token} {self.image_token}"
-            outputs = self.lvlm.inference(
+            outputs = self.vlm_model.inference(
                 qs=prompt,
                 img_files=[img1, img2],
                 num_return_sequences=num_samples,
@@ -99,7 +99,7 @@ class FaceVerification:
         # Rồi dùng kết quả tóm tắt này để làm prompt cho VLM kết luận
         final_prompt = conclusion_prompt_template.format(responses=summarized_responses)
         
-        final_decision = self.lvlm.inference(
+        final_decision = self.vlm_model.inference(
             qs=final_prompt,
             img_files=[img1, img2],
             num_return_sequences=1,
