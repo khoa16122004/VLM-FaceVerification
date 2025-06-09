@@ -3,10 +3,12 @@ from face_verification import FaceVerification
 from utils import CustomDataset
 from get_arch import init_lvlm_model
 from PIL import Image
-
+import torch
 # Caching model and dataset
 @st.cache_resource
 def load_controller():
+    torch.cuda.set_device(2)  # chỉ định sử dụng CUDA:2
+
     dataset = CustomDataset(root_dir="samples", type="different")
 
     pretrained_lvlm = "llava-next-interleave-qwen-7b"
@@ -16,8 +18,6 @@ def load_controller():
 
     controller = FaceVerification(vlm_model=vlm_model, llm_model=llm_model)
     return controller, dataset
-
-traditional_controller, dataset = load_controller()
 
 # UI
 st.set_page_config(page_title="Face Verification Demo", layout="centered")
