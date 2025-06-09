@@ -120,12 +120,13 @@ class FaceVerification:
 
 class DetectiveGame:
     def __init__(self, 
-                 vlm_model, # (pretrained, model_name)  
-                 llm_model, # (model_name,)
-                 max_rounds=3, 
-                ):
-        self.vlm_model, self.image_token, self.special_token = init_lvlm_model(pretrained=vlm_model[0], 
-                                                                               model_name=vlm_model[1])
+                 vlm_model,  # (pretrained, model_name)
+                 llm_model,  # (model_name,)
+                 max_rounds=3):
+        self.vlm_model, self.image_token, self.special_token = init_lvlm_model(
+            pretrained=vlm_model[0], 
+            model_name=vlm_model[1]
+        )
 
         self.llm_model = LlamaService(model_name=llm_model[0])
         self.max_rounds = max_rounds
@@ -192,9 +193,11 @@ class DetectiveGame:
 
             chat_context.append((question, f"Witness 1: {ans1.strip()}\nWitness 2: {ans2.strip()}"))
 
-            next_question = self.llm_model.chat(
-                chat_context,
-                "What is your next yes/no question? If you're confident, say 'None'."
+            dialogue = "\n".join(f"Q: {q}\nA1: {a1}\nA2: {a2}" for q, a1, a2 in history)
+
+            next_question = self.llm_model.text_to_text(
+                system_prompt=self.instruction_prompt,
+                prompt=dialogue + "\nWhat is your next yes/no question? If you're confident, say 'None'."
             )
             chat_context.append(("What is your next yes/no question? If you're confident, say 'None'.", next_question))
             round_count += 1
@@ -223,6 +226,7 @@ class DetectiveGame:
 
         print(f"\n🧠 VLM Final Decision: {final_decision}")
         return final_decision, history, round_count, dialogue_summary
+
     
 
         
