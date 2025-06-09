@@ -15,17 +15,11 @@ class FaceVerification:
     @torch.no_grad()
     def simple_answer(self, img1, img2, direct_return=1):
         if direct_return == 1:
-            prompt = (
-                f"Do these two facial images show the same person? "
-                f"Only answer with 'Same' or 'Different'. Do not explain. "
-                f"You must answer. {self.image_token} {self.image_token}"
-            )
+            prompt = "Given the two facial images, determine whether they belong to the same person. Give the explanation for your choosing"
+
         else:
-            prompt = (
-                f"Do these two facial images show the same person? "
-                f"First, explain your reasoning. Then clearly state your final conclusion as either 'Same' or 'Different'. "
-                f"You must answer. {self.image_token} {self.image_token}"
-            )
+            prompt = "Analyze the two provided facial images and determine if they belong to the same person. Please respond with a single text only: 'same' if you conclude they ARE the same person, and 'different' if you conclude they are NOT the same person"
+
 
         response = self.vlm_model.inference(
             qs=prompt,
