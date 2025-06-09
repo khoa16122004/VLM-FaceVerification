@@ -12,7 +12,7 @@ sample_ids = list(range(len(dataset)))
 @st.cache_data
 def load_sample(sample_id):
     label, case_name, (img1, img2), (img1_path, img2_path) = dataset[sample_id]
-    return img1_path, img2_path, label
+    return (img1_path, img2_path), (img1, img2), label
 
 # 🕵️‍♀️ Tạo detective game (cần truyền model của bạn vào đây)
 @st.cache_resource
@@ -34,14 +34,14 @@ st.title("🕵️ Detective Game: Are They the Same Person?")
 
 # 🔢 Chọn sample
 sample_id = st.selectbox("Select Sample ID:", sample_ids)
-img1_path, img2_path, ground_truth = load_sample(sample_id)
+(img1_path, img2_path), (img1, img2), ground_truth = load_sample(sample_id)
 
 # 🖼️ Hiển thị ảnh
 col1, col2 = st.columns(2)
 with col1:
-    st.image(Image.open(img1_path), caption="Witness #1 Image", use_column_width=True)
+    st.image(img1, caption="Witness #1 Image", use_column_width=True)
 with col2:
-    st.image(Image.open(img2_path), caption="Witness #2 Image", use_column_width=True)
+    st.image(img2, caption="Witness #2 Image", use_column_width=True)
 
 # 🎮 Chế độ chơi
 mode = st.radio("Select Mode:", ["🔁 LLM Asks Questions", "🙋 You Ask Questions"])
@@ -62,7 +62,7 @@ if "final_decision" not in st.session_state:
 if mode == "🔁 LLM Asks Questions":
     if st.button("Start Game"):
         with st.spinner("Detective is asking questions..."):
-            decision, history, round_count, summary = game.play(img1_path, img2_path)
+            decision, history, round_count, summary = game.play(img1, img2)
             st.session_state.history = history
             st.session_state.summary = summary
             st.session_state.final_decision = decision
