@@ -118,105 +118,115 @@ class FaceVerification:
 
 
 
-
-    
-
 class DetectiveGame:
-    def __init__(self, lvlm_model,
-                 llm,
-                 max_rounds=3,
-                 image_token="<image>"):
-        self.lvlm_model = lvlm_model
-        self.llm = llm
-        self.image_token = image_token
+    def __init__(self, 
+                 vlm_model, # (pretrained, model_name)  
+                 llm_model, # (model_name,)
+                 max_rounds=3, 
+                ):
+        self.vlm_model, self.image_token, self.special_token = init_lvlm_model(pretrained=vlm_model[0], 
+                                                                               model_name=vlm_model[1])
+
+        self.llm_model = LlamaService(model_name=llm_model[0])
         self.max_rounds = max_rounds
 
-        self.initial_instruction = """
-🎮 DETECTIVE CHALLENGE: Guess if two faces are the same person by asking the FEWEST yes/no questions!
+        self.instruction_prompt = (
+            "🎮 DETECTIVE CHALLENGE: Guess if two faces are the same person by asking the FEWEST yes/no questions!\n\n"
+            "🕵️ Your Mission: You’re a master detective who cannot see the images. Two witnesses each have one different image. "
+            "You ask them the same yes/no question. Each witness answers yes or no based on their own image.\n\n"
+            "🎯 GAME RULES:\n"
+            "- Ask one yes/no question to both witnesses.\n"
+            "- Compare their yes/no answers to decide.\n"
+            "- When confident, respond with \"None\" to finish.\n"
+            "- Do NOT ask comparative questions since each witness sees only their own image.\n"
+            "- Questions must be clear and specific enough to allow comparison.\n"
+            "⚠️ Example: \"Is the person in the image male?\""
+        )
 
-🕵️ Your Mission: You’re a master detective who cannot see the images. Two witnesses each have one different image. You ask them the same yes/no question. Each witness answers yes or no based on their own image.
+        self.summarize_prompt = (
+            "Summarize the detective’s question-and-answer history into a short conclusion. "
+            "Focus on whether the witnesses answered similarly or differently to each question, "
+            "and whether this supports that they are the same or different people."
+        )
 
-🎯 GAME RULES:
-- Ask one yes/no question to both witnesses.
-- Compare their yes/no answers to decide.
-- When confident, respond with "None" to finish.
-- Do NOT ask comparative questions since each witness sees only their own image.
-- Questions must be clear and specific enough to allow comparison.
-⚠️ Important:
-Example question: "Is the person in the image male?" (yes/no)
-Avoid open-ended or descriptive questions.
-"""
-    
+        self.final_vlm_prompt_template = (
+            "You are given two face images and a summary of how witnesses answered yes/no questions about them.\n\n"
+            "Summary of dialogue:\n{dialogue_summary}\n\n"
+            "Based on this and the visual appearance of both images ({img_token1} and {img_token2}), "
+            "conclude if the two images show the same person or not. Justify briefly."
+        )
+
+    @torch.no_grad()
     def play(self, img1, img2):
+        chat_context = [(self.instruction_prompt, "Understood. Here's my first question:\nIs the person in the image male?")]
         history = []
-        chat_context = [(
-            self.initial_instruction + "\nStart with your first question.",
-            "Understood. Here's my first question:\nIs the person in the image male?"
-        )]
-        round_counting = 0
+        round_count = 0
+
         for round_idx in range(self.max_rounds):
-            current_question = chat_context[-1][1]
+            question = chat_context[-1][1]
 
-            print(f"\n🎮 Game Round {round_idx + 1}")
-            print(f"🕵️ Detective Question: {current_question.strip()}")
+            print(f"\n🕵️ Round {round_idx + 1}: {question.strip()}")
 
-            answer_1 = self.lvlm_model.inference(
-                "Just answer yes or no.\n" + current_question + self.image_token,
-                [img1],
+            ans1 = self.vlm.inference(
+                qs=f"Just answer yes or no.\n{question} {self.image_token}",
+                img_files=[img1],
                 num_return_sequences=1,
                 do_sample=True,
-                temperature=0.8,
-                reload=False
+                temperature=0.8
             )[0]
 
-            answer_2 = self.lvlm_model.inference(
-                "Just answer yes or no.\n" + current_question + self.image_token,
-                [img2],
+            ans2 = self.vlm.inference(
+                qs=f"Just answer yes or no.\n{question} {self.image_token}",
+                img_files=[img2],
                 num_return_sequences=1,
                 do_sample=True,
-                temperature=0.8,
-                reload=False
+                temperature=0.8
             )[0]
 
-            print(f"👤 Witness #1: {answer_1.strip()}")
-            print(f"👤 Witness #2: {answer_2.strip()}")
+            print(f"👤 Witness #1: {ans1.strip()}")
+            print(f"👤 Witness #2: {ans2.strip()}")
 
-            history.append((current_question, answer_1, answer_2))
-
-            if "none" in current_question.lower():
-                print("\n🎯 GAME OVER! Detective has reached a conclusion!")
+            history.append((question, ans1, ans2))
+            if "none" in question.lower():
                 break
 
-            # Format conversation history for LLM context
-            chat_context.append((current_question, f"Witness 1: {answer_1}\nWitness 2: {answer_2}"))
+            chat_context.append((question, f"Witness 1: {ans1.strip()}\nWitness 2: {ans2.strip()}"))
 
-            # Get next detective question from LLM
-            next_question = self.llm_model.chat(chat_context, "What is your next yes/no question? If you're confident, say 'None'.")
+            next_question = self.llm.chat(
+                chat_context,
+                "What is your next yes/no question? If you're confident, say 'None'."
+            )
             chat_context.append(("What is your next yes/no question? If you're confident, say 'None'.", next_question))
+            round_count += 1
 
-            round_counting += 1
-            
-        return history, round_counting
+        history_text = "\n".join(
+            f"Q: {q.strip()}\nA1: {a1.strip()}\nA2: {a2.strip()}" for q, a1, a2 in history
+        )
+        dialogue_summary = self.llm.text_to_text(
+            system_prompt=self.summarize_prompt,
+            prompt=history_text
+        )
+
+        final_prompt = self.final_vlm_prompt_template.format(
+            dialogue_summary=dialogue_summary,
+            img_token1=self.image_token,
+            img_token2=self.image_token
+        )
+
+        final_decision = self.vlm.inference(
+            qs=final_prompt,
+            img_files=[img1, img2],
+            num_return_sequences=1,
+            do_sample=False,
+            temperature=0
+        )[0].replace("\n", "")
+
+        print(f"\n🧠 VLM Final Decision: {final_decision}")
+        return final_decision, history, round_count, dialogue_summary
     
 
         
-        
-if __name__ == "main":
-    
-    
-    
-    
-    lvlm_model, image_token, special_token =init_lvlm_model(pretained="llava-next-interleave-qwen-7b", 
-                                                            model_name="llava_qwen")
-    
-    llm_model = LlamaService(model_name="Llama-7b")
-    
 
-    # direct return
-    traditional_controller = FaciVerification(vlm_model=lvlm_model, 
-                                              image_token=image_token, 
-                                              llm_model=llm_model)
-    
     
     
     
