@@ -76,14 +76,14 @@ if mode == "🙋 You Ask Questions":
         with st.spinner("Witnesses answering..."):
             ans1 = game.vlm.inference(
                 qs=f"Just answer yes or no.\n{user_question} {game.image_token}",
-                img_files=[img1_path],
+                img_files=[img1],
                 num_return_sequences=1,
                 do_sample=True,
                 temperature=0.8
             )[0]
             ans2 = game.vlm.inference(
                 qs=f"Just answer yes or no.\n{user_question} {game.image_token}",
-                img_files=[img2_path],
+                img_files=[img2],
                 num_return_sequences=1,
                 do_sample=True,
                 temperature=0.8
@@ -107,7 +107,7 @@ if mode == "🙋 You Ask Questions":
             )
             final_decision = game.vlm.inference(
                 qs=final_prompt,
-                img_files=[img1_path, img2_path],
+                img_files=[img1, img2],
                 num_return_sequences=1,
                 do_sample=False,
                 temperature=0
