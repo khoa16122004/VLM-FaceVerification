@@ -22,7 +22,7 @@ class FaceVerification:
             )
         else:
             prompt = (
-                "Describe these images in detail, focusing on facial features. "
+                "Describe these 2 images in detail, focusing on facial features. <image> <image>\n"
             )
 
         response = self.vlm_model.inference(
