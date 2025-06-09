@@ -17,8 +17,17 @@ def load_sample(sample_id):
 # 🕵️‍♀️ Tạo detective game (cần truyền model của bạn vào đây)
 @st.cache_resource
 def get_game():
-    from your_model_loader import load_vlm, load_llm
-    return DetectiveGame(load_vlm(), load_llm())
+    pretrained_lvlm = "llava-next-interleave-qwen-7b"
+    model_name_lvlm = "llava_qwen"
+    vlm_model = (pretrained_lvlm, model_name_lvlm)
+
+    llm_model = ("Llama-7b", )
+
+    # ciontroller
+    controller = DetectiveGame(vlm_model=vlm_model, 
+                               llm_model=llm_model)
+    
+    return controller
 
 st.set_page_config(page_title="🕵️ Detective Game", layout="wide")
 st.title("🕵️ Detective Game: Are They the Same Person?")
