@@ -39,16 +39,25 @@ with col2:
     st.image(Image.open(img2_path), caption="Image 2", use_column_width=True)
 
 with col3:
-    mode = st.radio("Select Inference Mode:", ["Run Both Modes"])
+    mode = st.radio("Select Inference Mode:", ["Run Both Modes", "Run Sampling Mode"])
     if st.button("Run Inference"):
-        with st.spinner("Running Direct Answer..."):
-            direct_response = traditional_controller.simple_answer(img1, img2, direct_return=1)
-        with st.spinner("Running Explain Answer..."):
-            explain_response = traditional_controller.simple_answer(img1, img2, direct_return=0)
+        if mode == "Run Both Modes":
+            with st.spinner("Running Direct Answer..."):
+                direct_response = traditional_controller.simple_answer(img1, img2, direct_return=1)
+            with st.spinner("Running Explain Answer..."):
+                explain_response = traditional_controller.simple_answer(img1, img2, direct_return=0)
 
-        st.success("✅ Inference Results:")
-        st.subheader("🟢 Direct Answer")
-        st.write(direct_response)
+            st.success("✅ Inference Results:")
+            st.subheader("🟢 Direct Answer")
+            st.write(direct_response)
 
-        st.subheader("🔵 Explain Answer")
-        st.write(explain_response)
+            st.subheader("🔵 Explain Answer")
+            st.write(explain_response)
+
+        elif mode == "Run Sampling Mode":
+            with st.spinner("Running Sampling Answer..."):
+                final_decision, _, _, _ = traditional_controller.sampling_answer(img1, img2)
+
+            st.success("✅ Final Conclusion from Sampling:")
+            st.subheader("🧠 Final Decision")
+            st.write(final_decision)
