@@ -91,10 +91,9 @@ class FaceVerification:
         
         # Bước tóm tắt selection_responses bằng LLM trước
         responses_text = "\n".join(f"- {resp}" for resp in selection_responses)
-        summary_prompt = conclusion_summarize_prompt + "\n" + responses_text
         summarized_responses = self.llm.text_to_text(
-            system_prompt=None,  # hoặc bạn có thể để prompt tùy ý cho LLM tóm tắt
-            prompt=summary_prompt
+            system_prompt=conclusion_summarize_prompt,  # hoặc bạn có thể để prompt tùy ý cho LLM tóm tắt
+            prompt=responses_text
         )
         
         # Rồi dùng kết quả tóm tắt này để làm prompt cho VLM kết luận
