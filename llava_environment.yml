@@ -19,7 +19,6 @@ dependencies:
   - cmake=3.31.6
   - datasets=2.18.0
   - einops=0.6.1
-  - einops-exts=0.0.4
   - exceptiongroup=1.2.2
   - fastapi=0.115.12
   - filelock=3.18.0
