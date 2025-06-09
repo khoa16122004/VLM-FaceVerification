@@ -8,25 +8,25 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class LLava:
-def __init__(self, pretrained, model_name, tempurature=0):
-        self.pretrained = f"lmms-lab/{pretrained}"
-        self.model_name = model_name
-        self.device = "cuda"  # hoặc "cuda:0" nếu bạn muốn cụ thể
-        self.llava_model_args = {
-            "multimodal": True,
-        }
+    def __init__(self, pretrained, model_name, tempurature=0):
+            self.pretrained = f"lmms-lab/{pretrained}"
+            self.model_name = model_name
+            self.device = "cuda"  # hoặc "cuda:0" nếu bạn muốn cụ thể
+            self.llava_model_args = {
+                "multimodal": True,
+            }
 
-        overwrite_config = {}
-        overwrite_config["image_aspect_ratio"] = "pad"
-        self.llava_model_args["overwrite_config"] = overwrite_config
+            overwrite_config = {}
+            overwrite_config["image_aspect_ratio"] = "pad"
+            self.llava_model_args["overwrite_config"] = overwrite_config
 
-        # Bỏ device_map đi
-        self.tokenizer, self.model, self.image_processor, _ = load_pretrained_model(
-            self.pretrained, None, model_name, device=self.device, **self.llava_model_args
-        )
-        
-        self.tempurature = tempurature
-        self.model.eval()
+            # Bỏ device_map đi
+            self.tokenizer, self.model, self.image_processor, _ = load_pretrained_model(
+                self.pretrained, None, model_name, device=self.device, **self.llava_model_args
+            )
+            
+            self.tempurature = tempurature
+            self.model.eval()
         
     def reload(self):
         self.tokenizer, self.model, self.image_processor, _ = load_pretrained_model(self.pretrained, None, self.model_name, device_map=self.device_map, **self.llava_model_args)
