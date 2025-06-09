@@ -24,14 +24,20 @@ traditional_controller = FaceVerification(vlm_model=vlm_model,
 
 for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
 
+    print("image 1: ", img1_path)
+    print("image 2: ", img2_path)
+    
+    
+    
     # simple answer
-    result = traditional_controller.simple_answer(img1, img2)
-    print("Simple answer: ", result)
+    # result = traditional_controller.simple_answer(img1, img2)
+    # print("Simple answer: ", result)
     
     # explain answer
     result = traditional_controller.simple_answer(img1, img2, direct_return=0)
     print("Explain answer: ", result)
     
+    input("Press Enter to continue...")
     # # sampling answer
     # final_decision, all_question_responses, selection_responses = traditional_controller.sampling_answer(img1, img2)
     # print("Sampling decision: ", final_decision)
