@@ -12,7 +12,7 @@ dataset = CustomDataset(root_dir=r"samples",
 lvlm_model, image_token, special_token =init_lvlm_model(pretrained="llava-next-interleave-qwen-7b", 
                                                         model_name="llava_qwen")
 
-llm_model = LlamaService(model_name="Llama-7b")
+llm_model = LlamaService(model_name="llama-3-8b")
 
 for (label, case_name, (img1, img2), (img1_path, img2_path)) in dataset:
     # init controller
