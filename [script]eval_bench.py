@@ -44,8 +44,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--img_dir", type=str, required=True, help="Path to image directory")
-    parser.add_argument("--pair_path", type=str, required=True, help="Path to LFW pair.txt file")
+    parser.add_argument("--img_dir", type=str, required=True, help="Path to image directory", default="lfw/lfw/images")
+    parser.add_argument("--pair_path", type=str, required=True, help="Path to LFW pair.txt file", default="lfw/lfw/pairs.txt")
     parser.add_argument("--pretrained_lvlm", type=str, required=True, default="llava-next-interleave-qwen-7b")
     parser.add_argument("--model_name_lvlm", type=str, required=True, default="llava_qwen")
     parser.add_argument("--llm_model", type=str, default="Llama-7b")
