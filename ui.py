@@ -1,3 +1,6 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"  # Chỉ hiển thị GPU số 2 cho PyTorch
+
 import streamlit as st
 from face_verification import FaceVerification
 from utils import CustomDataset
@@ -8,8 +11,7 @@ import torch
 # Caching model and dataset
 @st.cache_resource
 def load_controller():
-    torch.cuda.set_device(2)  # chỉ định sử dụng CUDA:2
-
+    # Lúc này "cuda:0" chính là GPU vật lý số 2
     dataset = CustomDataset(root_dir="samples", type="different")
 
     pretrained_lvlm = "llava-next-interleave-qwen-7b"
