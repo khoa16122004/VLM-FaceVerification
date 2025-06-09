@@ -23,7 +23,7 @@ class FaceVerification:
         else:
             prompt = (
                 f"Do these two facial images show the same person? "
-                f"Answer with 'Same' or 'Different' and explain your reasoning. "
+                f"First, explain your reasoning. Then clearly state your final conclusion as either 'Same' or 'Different'. "
                 f"You must answer. {self.image_token} {self.image_token}"
             )
 
