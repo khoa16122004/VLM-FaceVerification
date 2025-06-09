@@ -16,14 +16,16 @@ class FaceVerification:
     def simple_answer(self, img1, img2, direct_return=1):
         if direct_return == 1:
             prompt = (
-                f"Do these two facial images show the same person? "
-                f"Only answer with 'Same' or 'Different'. Do not explain. "
-                f" {self.image_token} {self.image_token}"
+                f"Analyze the two facial images and determine if they belong to the same person. "
+                f"Focus especially on biometric regions such as eyes, nose, mouth, and jawline. "
+                f"Respond with only one word: 'Same' or 'Different'. Do not provide any explanation. "
+                f"{self.image_token} {self.image_token}"
             )
         else:
             prompt = (
-                f"Do these two facial images show the same person? "
-                f"First, explain your reasoning. Then clearly state your final conclusion as either 'Same' or 'Different'. "
+                f"Analyze the two facial images and decide whether they belong to the same person. "
+                f"Focus especially on biometric regions such as eyes, nose, mouth, and jawline. "
+                f"First, explain your reasoning in detail based on these regions. Then, clearly state your final conclusion as either 'Same' or 'Different'. "
                 f"{self.image_token} {self.image_token}"
             )
 
