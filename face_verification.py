@@ -13,20 +13,21 @@ class FaceVerification:
             self.llm_model = LlamaService(model_name=llm_model[0])
         
     @torch.no_grad()
-    @torch.no_grad()
     def simple_answer(self, img1, img2, direct_return=1):
         if direct_return == 1:
             prompt = (
-                f"Carefully examine the two facial images and determine if they show the same person. "
-                f"You must respond in the exact format: {{Same}} {{None}} or {{Different}} {{None}}. "
-                f"Do not provide any explanation. You are not allowed to refuse. "
+                f"Look at the two facial images and determine if they show the same person. "
+                f"Only respond with your answer, no explanation is allowed. "
+                f"You must strictly use this format: {{Same}} {{None}} or {{Different}} {{None}}. "
+                f"Do not refuse to answer under any circumstance. "
                 f"{self.image_token} {self.image_token}"
             )
         else:
             prompt = (
-                f"Carefully examine the two facial images and determine if they show the same person. "
-                f"You must respond in the exact format: {{Same}} {{your explanation}} or {{Different}} {{your explanation}}. "
-                f"You are not allowed to refuse or skip the answer. "
+                f"Look at the two facial images and determine if they show the same person. "
+                f"You must provide both your answer and the reason for your decision. "
+                f"Respond strictly in this format: {{Same}} {{your explanation}} or {{Different}} {{your explanation}}. "
+                f"Do not refuse to answer. Explanation must be included inside the double curly braces. "
                 f"{self.image_token} {self.image_token}"
             )
 
