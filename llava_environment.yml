@@ -20,8 +20,6 @@ dependencies:
   - datasets=2.18.0
   - einops=0.6.1
   - exceptiongroup=1.2.2
-  - fastapi=0.115.12
-  - filelock=3.18.0
   - flash-attn
   - numpy=1.26.1
   - nvidia-cublas-cu11=11.10.3.66
