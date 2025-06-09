@@ -14,7 +14,7 @@ def load_controller():
     pretrained_lvlm = "llava-next-interleave-qwen-7b"
     model_name_lvlm = "llava_qwen"
     vlm_model = (pretrained_lvlm, model_name_lvlm)
-    llm_model = None
+    llm_model = ("Llama-7b", )
     controller = FaceVerification(vlm_model=vlm_model, llm_model=llm_model)
     return controller, dataset
 
