@@ -12,28 +12,30 @@ class FaceVerification:
         if llm_model:
             self.llm_model = LlamaService(model_name=llm_model[0])
         
-    @torch.no_grad()
-    def simple_answer(self, img1, img2, direct_return=1):
-        if direct_return == 1:
-            prompt = (
-                f"Do these two facial images show the same person? "
-                f"Only answer with 'Same' or 'Different'. Do not explain. "
-                f"You must answer. {self.image_token} {self.image_token}"
-            )
-        else:
-            prompt = (
-                "Describe these 2 images in detail, focusing on facial features. <image> <image>\n"
-            )
+@torch.no_grad()
+def simple_answer(self, img1, img2, direct_return=1):
+    if direct_return == 1:
+        prompt = (
+            f"Do these two facial images show the same person? "
+            f"Only answer with 'Same' or 'Different'. Do not explain. "
+            f" {self.image_token} {self.image_token}"
+        )
+    else:
+        prompt = (
+            f"Do these two facial images show the same person? "
+            f"First, explain your reasoning. Then clearly state your final conclusion as either 'Same' or 'Different'. "
+            f"{self.image_token} {self.image_token}"
+        )
 
-        response = self.vlm_model.inference(
-            qs=prompt,
-            img_files=[img1, img2],
-            num_return_sequences=1,
-            do_sample=False,
-            temperature=0
-        )[0].replace("\n", "")
+    response = self.vlm_model.inference(
+        qs=prompt,
+        img_files=[img1, img2],
+        num_return_sequences=1,
+        do_sample=False,
+        temperature=0
+    )[0].replace("\n", "")
 
-        return response
+    return response
 
 
     
