@@ -132,29 +132,34 @@ class DetectiveGame:
         self.max_rounds = max_rounds
 
         self.instruction_prompt = (
-            "🎮 DETECTIVE CHALLENGE: Guess if two faces are the same person by asking the FEWEST yes/no questions!\n\n"
-            "🕵️ Your Mission: You’re a master detective who cannot see the images. Two witnesses each have one different image. "
-            "You ask them the same yes/no question. Each witness answers yes or no based on their own image.\n\n"
+            "🎮 DETECTIVE CHALLENGE: Determine if two face images belong to the same person by asking YES/NO questions.\n\n"
+            "🕵️ Your Role: You're a detective who **cannot see the images**. Each witness sees a **different image**.\n"
+            "Your task is to ask both witnesses the **same yes/no question** about **biometric facial features**.\n\n"
             "🎯 GAME RULES:\n"
-            "- Ask one yes/no question to both witnesses.\n"
-            "- Compare their yes/no answers to decide.\n"
-            "- When confident, respond with \"None\" to finish.\n"
-            "- Do NOT ask comparative questions since each witness sees only their own image.\n"
-            "- Questions must be clear and specific enough to allow comparison.\n"
-            "⚠️ Example: \"Is the person in the image male?\""
+            "- Only ask clear yes/no questions.\n"
+            "- Focus on **objective facial features** like eye shape, nose length, jaw structure, etc.\n"
+            "- Do NOT ask subjective or comparative questions.\n"
+            "- Avoid questions that cannot be answered from a single image (e.g., 'Is this person the same as the other?').\n"
+            "- After each question, compare their answers. If you're confident, say 'None' to stop.\n\n"
+            "🧠 Example questions:\n"
+            "- Does the person have a sharp jawline?\n"
+            "- Are the eyes almond-shaped?\n"
+            "- Does the person have a wide nose?\n"
+            "- Is the upper lip significantly thicker than the lower lip?\n"
         )
 
         self.summarize_prompt = (
-            "Summarize the detective’s question-and-answer history into a short conclusion. "
-            "Focus on whether the witnesses answered similarly or differently to each question, "
-            "and whether this supports that they are the same or different people."
+            "Given the detective’s question-and-answer history, summarize how similar or different the witnesses' answers were. "
+            "Highlight whether their responses suggest **biometric similarity** (e.g., same eye shape, jawline) or not. "
+            "Be concise and focus on **whether the facial features described appear to match** across both images."
         )
 
         self.final_vlm_prompt_template = (
-            "You are given two face images and a summary of how witnesses answered yes/no questions about them.\n\n"
-            "Summary of dialogue:\n{dialogue_summary}\n\n"
-            "Based on this and the visual appearance of both images ({img_token1} and {img_token2}), "
-            "conclude if the two images show the same person or not. Justify briefly."
+            "You are given two face images and a summary of how witnesses answered yes/no questions "
+            "about various biometric facial features (such as eyes, nose, jawline, etc).\n\n"
+            "Summary of witness answers:\n{dialogue_summary}\n\n"
+            "Now, based on this summary and the visual appearance of the two images ({img_token1} and {img_token2}), "
+            "conclude whether the two images likely show the **same individual** or **different individuals**. Justify your conclusion briefly."
         )
 
     @torch.no_grad()
