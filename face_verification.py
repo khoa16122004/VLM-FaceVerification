@@ -59,14 +59,14 @@ class FaceVerification:
         conclusion_summarize_prompt = (
             "Summarize the following multiple responses into a concise consensus statement:"
         )
-        
+    
+    
         conclusion_prompt_template = (
-            "You are given two face images and a summary of expert opinions comparing their biometric features "
-            "(such as eyes, nose, mouth, jawline, and eyebrows).\n\n"
-            "Based on this information, determine if these two images show the same person or not.\n\n"
+            "You are given two face images and a summary of expert opinions comparing their biometric features, "
+            "Based on this summary and the visual content of the two images, provide a conclusion about whether they likely "
             "Summary of expert responses:\n"
             "{responses}\n\n"
-            "Final decision (only answer with 'Same person' or 'Different people'):"
+            "Your conclusion:"
         )
         
         all_question_responses = []
