@@ -167,7 +167,7 @@ class DetectiveGame:
 
             print(f"\n🕵️ Round {round_idx + 1}: {question.strip()}")
 
-            ans1 = self.vlm.inference(
+            ans1 = self.vlm_model.inference(
                 qs=f"Just answer yes or no.\n{question} {self.image_token}",
                 img_files=[img1],
                 num_return_sequences=1,
@@ -175,7 +175,7 @@ class DetectiveGame:
                 temperature=0.8
             )[0]
 
-            ans2 = self.vlm.inference(
+            ans2 = self.vlm_model.inference(
                 qs=f"Just answer yes or no.\n{question} {self.image_token}",
                 img_files=[img2],
                 num_return_sequences=1,
@@ -192,7 +192,7 @@ class DetectiveGame:
 
             chat_context.append((question, f"Witness 1: {ans1.strip()}\nWitness 2: {ans2.strip()}"))
 
-            next_question = self.llm.chat(
+            next_question = self.llm_model.chat(
                 chat_context,
                 "What is your next yes/no question? If you're confident, say 'None'."
             )
@@ -202,7 +202,7 @@ class DetectiveGame:
         history_text = "\n".join(
             f"Q: {q.strip()}\nA1: {a1.strip()}\nA2: {a2.strip()}" for q, a1, a2 in history
         )
-        dialogue_summary = self.llm.text_to_text(
+        dialogue_summary = self.llm_model.text_to_text(
             system_prompt=self.summarize_prompt,
             prompt=history_text
         )
@@ -213,7 +213,7 @@ class DetectiveGame:
             img_token2=self.image_token
         )
 
-        final_decision = self.vlm.inference(
+        final_decision = self.vlm_model.inference(
             qs=final_prompt,
             img_files=[img1, img2],
             num_return_sequences=1,
