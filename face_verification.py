@@ -132,19 +132,21 @@ class DetectiveGame:
         self.max_rounds = max_rounds
 
         self.instruction_prompt = (
-            "🎮 DETECTIVE CHALLENGE: Determine if two face images belong to the same person by asking YES/NO questions.\n\n"
-            "🕵️ You are a detective who **cannot see the images**. Each witness sees **only one image** and cannot see the other's image.\n"
+            "🎭 IDENTITY TEST: Find clear differences between two face images to determine if they show **different people**.\n\n"
+            "🕵️ You are an investigator who **cannot see the images**. There are two witnesses: each sees **only one image**, and they cannot see the other's image.\n"
             "You must ask **the same yes/no question** to both witnesses, based solely on the face they see.\n\n"
-            "🎯 RULES:\n"
+            "🧠 GOAL:\n"
+            "- Discover **distinctive differences** that indicate the two faces likely belong to **different individuals**.\n\n"
+            "📋 RULES:\n"
             "- Ask only **clear, objective yes/no questions**.\n"
             "- Focus on **biometric features** visible in a single image, such as:\n"
             "  • Skin tone and color\n"
             "  • Hair style, color, or facial hair\n"
-            "  • Facial structure and shapes (eyes, nose, lips, jawline)\n"
+            "  • Facial structure and shapes (e.g., eyes, nose, lips, jawline)\n"
             "  • Ethnicity-related traits\n"
-            "- Avoid subjective, comparative, or ambiguous questions.\n"
-            "- When confident, reply with **'None'** to stop.\n"
-            "- ⚠️ Only output the next yes/no question. Do not add explanations or other text."
+            "- Avoid subjective or comparative questions (e.g., 'Do they look similar?').\n"
+            "- When confident that the identities differ or no more useful questions can be asked, respond with **'None'**.\n"
+            "- ⚠️ Only output the next yes/no question. Do not explain your reasoning."
         )
 
 
@@ -156,10 +158,10 @@ class DetectiveGame:
 
         self.final_vlm_prompt_template = (
             "You are given two face images and a summary of how witnesses answered yes/no questions "
-            "about various biometric facial features (such as eyes, nose, jawline, etc).\n\n"
-            "Summary of witness answers:\n{dialogue_summary}\n\n"
-            "Now, based on this summary and the visual appearance of the two images ({img_token1} and {img_token2}), "
-            "conclude whether the two images likely show the **same individual** or **different individuals**. Justify your conclusion briefly."
+            "about biometric facial features.\n\n"
+            "Witness answers summary:\n{dialogue_summary}\n\n"
+            "Using this summary and the two face images ({img_token1} and {img_token2}), "
+            "decide if they show the **same person** or **different people**. Briefly explain why."
         )
 
     @torch.no_grad()
