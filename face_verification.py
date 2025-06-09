@@ -83,7 +83,7 @@ class FaceVerification:
             all_question_responses.append(outputs)
             
             prompt_for_llm = f"Question: {question}\nResponses:\n" + "\n".join(f"- {o}" for o in outputs)
-            output = self.llm.text_to_text(
+            output = self.llm_model.text_to_text(
                 system_prompt=selection_voting,
                 prompt=prompt_for_llm
             )
