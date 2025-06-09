@@ -199,6 +199,7 @@ class DetectiveGame:
                 system_prompt=self.instruction_prompt,
                 prompt=dialogue + "\nWhat is your next yes/no question? If you're confident, say 'None'."
             )
+            print(next_question)
             chat_context.append(("What is your next yes/no question? If you're confident, say 'None'.", next_question))
             round_count += 1
 
