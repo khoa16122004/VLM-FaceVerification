@@ -4,16 +4,22 @@ from utils import CustomDataset
 from get_arch import init_lvlm_model
 from PIL import Image
 
-# Load dataset và model
-dataset = CustomDataset(root_dir="samples", type="different")
+# Caching model and dataset
+@st.cache_resource
+def load_controller():
+    dataset = CustomDataset(root_dir="samples", type="different")
 
-pretrained_lvlm = "llava-next-interleave-qwen-7b"
-model_name_lvlm = "llava_qwen"
-vlm_model = (pretrained_lvlm, model_name_lvlm)
-llm_model = None
+    pretrained_lvlm = "llava-next-interleave-qwen-7b"
+    model_name_lvlm = "llava_qwen"
+    vlm_model = (pretrained_lvlm, model_name_lvlm)
+    llm_model = None
 
-traditional_controller = FaceVerification(vlm_model=vlm_model, llm_model=llm_model)
+    controller = FaceVerification(vlm_model=vlm_model, llm_model=llm_model)
+    return controller, dataset
 
+traditional_controller, dataset = load_controller()
+
+# UI
 st.set_page_config(page_title="Face Verification Demo", layout="centered")
 
 st.title("🔍 Face Verification Inference")
