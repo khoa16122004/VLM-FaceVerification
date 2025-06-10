@@ -25,7 +25,7 @@ def main(args):
         raise ValueError("Invalid controller type")
 
     # Output dir
-    output_root = "controller={args.controller}_vlm={args.pretrained_lvlm}_llm={args.llm_model}"
+    output_root = f"controller={args.controller}_vlm={args.pretrained_lvlm}_llm={args.llm_model}"
     ensure_dir(output_root)
 
     for i in tqdm(range(len(dataset)), desc="Processing Samples"):
