@@ -25,9 +25,9 @@ def main(args):
             sample_dir = os.path.join(args.input_dir, f"sample_{i}")
             with open(os.path.join(sample_dir, "decision.txt"), "r") as decision_file:
                 decision = decision_file.read().strip()
-                print("Decision:", decision)
+                # print("Decision:", decision)
                 output = extract_answer(decision, llm)
-                print(output)
+                # print(output)
                 f.write(output + "\n")
 
 
