@@ -28,7 +28,7 @@ def main(args):
                 print("Decision:", decision)
                 output = extract_answer(decision, llm)
                 print(output)
-                f.writr(output + "\n")
+                f.write(output + "\n")
 
 
 if __name__ == "__main__":
