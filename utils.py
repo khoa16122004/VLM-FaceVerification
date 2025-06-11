@@ -3,6 +3,7 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from PIL import Image
 import json
+import re
 
 class CustomDataset(Dataset):
     def __init__(self, root_dir, type="same"):
@@ -90,9 +91,24 @@ def save_json(filepath, data):
 
 
 
-# lfw = LFW(
-#     IMG_DIR=r"D:\VLM-FaceVerification\lfw\images",
-#     PAIR_PATH=r"D:\VLM-FaceVerification\lfw\pairs.txt",
-# )
-# print(len(lfw))
-# print(lfw[0])
+def extract_answer(text, llm):
+    system_prompt = (
+        "You will be given a paragraph of explanation about 2 facial images. "
+        "Your task is to extract the idea: are they the same person or not? "
+        "Just return 'same' or 'different'."
+    )
+    prompt = text
+
+    response = llm.text_to_text(system_prompt, prompt).strip().lower()
+
+    # Nếu phản hồi không phải là "same" hoặc "different", cố gắng trích xuất bằng regex
+    while response not in ["same", "different"]:
+        match = re.search(r'\b(same|different)\b', response)
+        if match:
+            response = match.group(1)
+        else:
+            # Gọi lại mô hình nếu vẫn không rõ ràng
+            response = llm.text_to_text(system_prompt, prompt).strip().lower()
+
+    return response
+    

@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore")
 class LLava:
     def __init__(self, pretrained, model_name, tempurature=0):
         
-        # llava-next-interleave-7b
+        # llava-next-interleave-qwen-7b
         # llava-onevision-qwen2-7b-ov
         self.pretrained = f"lmms-lab/{pretrained}"
         self.model_name = model_name
