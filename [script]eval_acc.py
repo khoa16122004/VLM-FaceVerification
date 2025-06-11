@@ -41,10 +41,14 @@ def main(args):
             total_same += 1
             if output == "same":
                 acc_same += 1
+            else:
+                print(i, "is incorrectly classified as different")
         elif label == 1:
             total_diff += 1
             if output == "different":
                 acc_diff += 1
+            else:
+                print(i, "is incorrectly classified as same")
 
     # Final metrics
     same_acc = acc_same / total_same if total_same else 0
