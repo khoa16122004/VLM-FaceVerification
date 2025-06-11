@@ -29,19 +29,37 @@ def main(args):
     ensure_dir(output_root)
 
     if not args.recheck_path:
-    for i in tqdm(range(len(dataset)), desc="Processing Samples"):
-        img1, img2, label = dataset[i]
+        for i in tqdm(range(len(dataset)), desc="Processing Samples"):
+            img1, img2, label = dataset[i]
 
-        final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2)
+            final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2)
+            
+            sample_dir = os.path.join(output_root, f"sample_{i}")
+            ensure_dir(sample_dir)
+
+            save_txt(os.path.join(sample_dir, "label.txt"), str(label))
+            save_txt(os.path.join(sample_dir, "decision.txt"), final_decision)
+            save_json(os.path.join(sample_dir, "all_questions.json"), all_qas)
+            save_json(os.path.join(sample_dir, "selections.json"), selection_qas)
+            save_txt(os.path.join(sample_dir, "summary.txt"), summary)
+    
+    else:
+        with open(args.recheck_path, "r") as f:
+            sample_ids = [int(line.strip()) for line in f.readlines()]
         
-        sample_dir = os.path.join(output_root, f"sample_{i}")
-        ensure_dir(sample_dir)
+        for i in tqdm(sample_ids, desc="Rechecking Samples"):
+            img1, img2, label = dataset[i]
 
-        save_txt(os.path.join(sample_dir, "label.txt"), str(label))
-        save_txt(os.path.join(sample_dir, "decision.txt"), final_decision)
-        save_json(os.path.join(sample_dir, "all_questions.json"), all_qas)
-        save_json(os.path.join(sample_dir, "selections.json"), selection_qas)
-        save_txt(os.path.join(sample_dir, "summary.txt"), summary)
+            final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2)
+            
+            sample_dir = os.path.join(output_root, f"sample_{i}")
+            ensure_dir(sample_dir)
+
+            save_txt(os.path.join(sample_dir, "label.txt"), str(label))
+            save_txt(os.path.join(sample_dir, "decision.txt"), final_decision)
+            save_json(os.path.join(sample_dir, "all_questions.json"), all_qas)
+            save_json(os.path.join(sample_dir, "selections.json"), selection_qas)
+            save_txt(os.path.join(sample_dir, "summary.txt"), summary)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
