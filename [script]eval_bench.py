@@ -69,6 +69,6 @@ if __name__ == "__main__":
     parser.add_argument("--model_name_lvlm", type=str, default="llava_qwen")
     parser.add_argument("--llm_model", type=str, default="Llama-7b")
     parser.add_argument("--controller", choices=["traditional", "detective"], default="traditional")
-    parser.add_argument("recheck_path", type=str, default=None)
+    parser.add_argument("--recheck_path", type=str, default=None)
     args = parser.parse_args()
     main(args)
