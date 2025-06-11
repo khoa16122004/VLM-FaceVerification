@@ -61,12 +61,10 @@ def main(args):
     print(f"Overall Accuracy:     {overall_acc:.4f}")
     print(f"Macro F1 Score:       {macro_f1:.4f}")
     print()
-    print(f"Wrong 'same' cases (GT=same, Pred=different): {len(wrong_same)}")
-    print(f"Wrong 'different' cases (GT=different, Pred=same): {len(wrong_diff)}")
 
     # Save wrong cases
-    save_txt("wrong_same.txt", [str(i) for i in wrong_same])
-    save_txt("wrong_diff.txt", [str(i) for i in wrong_diff])
+    save_txt("wrong_same.txt", [str(i) for i in wrong_same_indexes])
+    save_txt("wrong_diff.txt", [str(i) for i in wrong_diff_indexes])
     print("Saved wrong indices to wrong_same.txt and wrong_diff.txt")
 
 
