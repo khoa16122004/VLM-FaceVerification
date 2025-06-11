@@ -29,7 +29,7 @@ def main(args):
     ensure_dir(output_root)
 
     if not args.recheck_path:
-        for i in tqdm(range(len(dataset)), desc="Processing Samples"):
+        for i in tqdm(range(args.start_index, len(dataset)), desc="Processing Samples"):
             img1, img2, label = dataset[i]
 
             final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2)
@@ -70,5 +70,6 @@ if __name__ == "__main__":
     parser.add_argument("--llm_model", type=str, default="Llama-7b")
     parser.add_argument("--controller", choices=["traditional", "detective"], default="traditional")
     parser.add_argument("--recheck_path", type=str, default=None)
+    parser.add_argument("--start_index", type=int, default=0)
     args = parser.parse_args()
     main(args)
