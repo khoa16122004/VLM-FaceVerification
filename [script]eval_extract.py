@@ -33,6 +33,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--img_dir", type=str, help="Path to image directory", default="lfw/images")
+    parser.add_argument("--pair_path", type=str, help="Path to LFW pair.txt file", default="lfw/pairs.txt")
+
     parser.add_argument("--input_dir", type=str, help="Path to input directory containing samples", required=True)
 
     args = parser.parse_args()
