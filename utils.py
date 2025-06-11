@@ -93,9 +93,8 @@ def save_json(filepath, data):
 
 def extract_answer(text, llm):
     system_prompt = (
-        "You will be given a paragraph of explanation about 2 facial images. "
-        "Your task is to extract the idea: are they the same person or not? "
-        "Just return 'same' or 'different'."
+        "Given a paragraph describing two facial images, determine whether they show the same person or not. "
+        "Reply with only one word: 'same' or 'different'."
     )
     prompt = text
 
