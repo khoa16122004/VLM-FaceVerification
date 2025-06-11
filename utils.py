@@ -99,7 +99,7 @@ def extract_answer(text, llm):
     )
     prompt = text
 
-    response = llm.text_to_text(system_prompt, prompt).strip().lower()
+    response = llm.text_to_text(system_prompt, prompt)[0].strip().lower()
 
     # Nếu phản hồi không phải là "same" hoặc "different", cố gắng trích xuất bằng regex
     while response not in ["same", "different"]:
@@ -108,7 +108,7 @@ def extract_answer(text, llm):
             response = match.group(1)
         else:
             # Gọi lại mô hình nếu vẫn không rõ ràng
-            response = llm.text_to_text(system_prompt, prompt).strip().lower()
+            response = llm.text_to_text(system_prompt, prompt)[0].strip().lower()
 
     return response
     
