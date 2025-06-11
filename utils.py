@@ -84,6 +84,11 @@ def ensure_dir(path):
 def save_txt(filepath, content):
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(str(content))
+        
+def save_txt_lines(filepath, content):
+    with open(filepath, "w", encoding="utf-8") as f:
+        for line in content:
+            f.write(f"{line}\n")
 
 def save_json(filepath, data):
     with open(filepath, "w", encoding="utf-8") as f:

@@ -2,7 +2,7 @@ import os
 import json
 import argparse
 from face_verification import FaceVerification, DetectiveGame
-from utils import LFW, save_txt, save_json, ensure_dir, extract_answer
+from utils import LFW, save_txt, save_json, ensure_dir, extract_answer, save_txt_lines
 from tqdm import tqdm
 from llm_service import LlamaService
 from sklearn.metrics import f1_score
@@ -63,8 +63,8 @@ def main(args):
     print()
 
     # Save wrong cases
-    save_txt("wrong_same.txt", [str(i) for i in wrong_same_indexes])
-    save_txt("wrong_diff.txt", [str(i) for i in wrong_diff_indexes])
+    save_txt_lines("wrong_same.txt", [str(i) for i in wrong_same_indexes])
+    save_txt_lines("wrong_diff.txt", [str(i) for i in wrong_diff_indexes])
     print("Saved wrong indices to wrong_same.txt and wrong_diff.txt")
 
 
