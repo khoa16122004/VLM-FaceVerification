@@ -28,6 +28,7 @@ def main(args):
     output_root = f"controller={args.controller}_vlm={args.pretrained_lvlm}_llm={args.llm_model}"
     ensure_dir(output_root)
 
+    if not args.recheck_path:
     for i in tqdm(range(len(dataset)), desc="Processing Samples"):
         img1, img2, label = dataset[i]
 
@@ -50,6 +51,6 @@ if __name__ == "__main__":
     parser.add_argument("--model_name_lvlm", type=str, default="llava_qwen")
     parser.add_argument("--llm_model", type=str, default="Llama-7b")
     parser.add_argument("--controller", choices=["traditional", "detective"], default="traditional")
-
+    parser.add_argument("recheck_path", type=str, default=None)
     args = parser.parse_args()
     main(args)

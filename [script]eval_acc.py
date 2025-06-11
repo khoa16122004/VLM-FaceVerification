@@ -27,8 +27,8 @@ def main(args):
     y_true = []
     y_pred = []
 
-    wrong_same = []  # GT = same, predicted = different
-    wrong_diff = []  # GT = different, predicted = same
+    wrong_same_indexes = []
+    wrong_diff_indexes = []
 
     for i in tqdm(range(len(dataset)), desc="Processing Samples"):
         img1, img2, label = dataset[i]
@@ -43,13 +43,13 @@ def main(args):
             if output == "same":
                 acc_same += 1
             else:
-                wrong_same.append(i)
+                wrong_same_indexes.append(str(i))
         elif label == 1:
             total_diff += 1
             if output == "different":
                 acc_diff += 1
             else:
-                wrong_diff.append(i)
+                wrong_diff_indexes.append(str(i))
 
     same_acc = acc_same / total_same if total_same else 0
     diff_acc = acc_diff / total_diff if total_diff else 0
