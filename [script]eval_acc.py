@@ -8,14 +8,12 @@ from llm_service import LlamaService
 from sklearn.metrics import f1_score
 
 def main(args):
-    # Prepare dataset
     dataset = LFW(
         IMG_DIR=args.img_dir,
         PAIR_PATH=args.pair_path,
         transform=None,
     )
 
-    # Read model outputs
     with open(args.result_path, "r") as f:
         results = [line.strip().lower() for line in f.readlines()]
 
@@ -28,6 +26,9 @@ def main(args):
 
     y_true = []
     y_pred = []
+
+    wrong_same = []  # GT = same, predicted = different
+    wrong_diff = []  # GT = different, predicted = same
 
     for i in tqdm(range(len(dataset)), desc="Processing Samples"):
         img1, img2, label = dataset[i]
@@ -42,15 +43,14 @@ def main(args):
             if output == "same":
                 acc_same += 1
             else:
-                print(i, "is incorrectly classified as different")
+                wrong_same.append(i)
         elif label == 1:
             total_diff += 1
             if output == "different":
                 acc_diff += 1
             else:
-                print(i, "is incorrectly classified as same")
+                wrong_diff.append(i)
 
-    # Final metrics
     same_acc = acc_same / total_same if total_same else 0
     diff_acc = acc_diff / total_diff if total_diff else 0
     overall_acc = (acc_same + acc_diff) / len(dataset)
@@ -60,6 +60,15 @@ def main(args):
     print(f"Accuracy (Different): {diff_acc:.4f}")
     print(f"Overall Accuracy:     {overall_acc:.4f}")
     print(f"Macro F1 Score:       {macro_f1:.4f}")
+    print()
+    print(f"Wrong 'same' cases (GT=same, Pred=different): {len(wrong_same)}")
+    print(f"Wrong 'different' cases (GT=different, Pred=same): {len(wrong_diff)}")
+
+    # Save wrong cases
+    save_txt("wrong_same.txt", [str(i) for i in wrong_same])
+    save_txt("wrong_diff.txt", [str(i) for i in wrong_diff])
+    print("Saved wrong indices to wrong_same.txt and wrong_diff.txt")
+
 
 
 if __name__ == "__main__":
