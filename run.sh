@@ -3,4 +3,4 @@
 #SBATCH -N 1
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
-python "[script]eval_bench.py" --start_index 1078 --img_dir lfw/lfw/images --pair_path lfw/lfw/pairs.txt
+python "[script]eval_bench.py" --start_index 2280 --pretrained_lvlm llava-next-interleave-qwen-7b --img_dir lfw/lfw/images --pair_path lfw/lfw/pairs.txt
