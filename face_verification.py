@@ -63,7 +63,7 @@ class FaceVerification:
 
         conclusion_prompt_template = (
             "You are given two face images and a summary of expert opinions comparing their biometric features, "
-            "Based on this summary and the visual content of the two images, provide a conclusion about whether they likely the same person or not"
+            "Based on this SUMMARY and the VISUAL content of the two images, provide a conclusion about whether they likely the same person or not"
             "Images: {img_token1} and {img_token2}\n\n"
             "Summary of expert responses:\n"
             "{responses}\n\n"
