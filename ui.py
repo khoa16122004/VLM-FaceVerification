@@ -11,7 +11,7 @@ import torch
 @st.cache_resource
 def load_controller():
     dataset = CustomDataset(root_dir="samples", type="same")
-    pretrained_lvlm = "llava-next-interleave-qwen-7b"
+    pretrained_lvlm = "llava-onevision-qwen2-7b-ov"
     model_name_lvlm = "llava_qwen"
     vlm_model = (pretrained_lvlm, model_name_lvlm)
     llm_model = ("Llama-7b", )
