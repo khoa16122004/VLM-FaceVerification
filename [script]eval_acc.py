@@ -63,9 +63,9 @@ def main(args):
     print()
 
     # Save wrong cases
-    save_txt_lines("wrong_same.txt", [str(i) for i in wrong_same_indexes])
-    save_txt_lines("wrong_diff.txt", [str(i) for i in wrong_diff_indexes])
-    print("Saved wrong indices to wrong_same.txt and wrong_diff.txt")
+    # save_txt_lines("wrong_same.txt", [str(i) for i in wrong_same_indexes])
+    # save_txt_lines("wrong_diff.txt", [str(i) for i in wrong_diff_indexes])
+    # print("Saved wrong indices to wrong_same.txt and wrong_diff.txt")
 
 
 
