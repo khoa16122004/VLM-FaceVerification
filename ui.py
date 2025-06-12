@@ -58,8 +58,21 @@ with col3:
             sampling_answer = st.text_input("Enter your Sampling Answer (Yes/No):", value="Yes")
             if sampling_answer:
                 with st.spinner("Running Sampling Answer..."):
-                    final_decision, _, _, _ = traditional_controller.sampling_answer(img1, img2, sampling_answer)
+                    final_decision, all_question_responses, selection_responses, summarized_responses = traditional_controller.sampling_answer(img1, img2, sampling_answer)
 
                 st.success("✅ Sampling Result:")
+
                 st.subheader("🧠 Final Decision")
                 st.write(final_decision)
+
+                st.subheader("📋 All Question Responses")
+                for idx, response in enumerate(all_question_responses):
+                    st.markdown(f"**Q{idx+1}:** {response}")
+
+                st.subheader("✅ Selected Responses")
+                for idx, sel in enumerate(selection_responses):
+                    st.markdown(f"**Selection {idx+1}:** {sel}")
+
+                st.subheader("📝 Summarized Responses")
+                for idx, summary in enumerate(summarized_responses):
+                    st.markdown(f"**Summary {idx+1}:** {summary}")
