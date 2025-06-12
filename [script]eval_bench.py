@@ -50,7 +50,7 @@ def main(args):
         for i in tqdm(sample_ids, desc="Rechecking Samples"):
             img1, img2, label = dataset[i]
 
-            final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2, num_samples=args.num_samples)
+            final_decision, all_qas, selection_qas, summary = controller.sampling_answer(img1, img2, args.num_samples)
             
             sample_dir = os.path.join(output_root, f"sample_{i}")
             ensure_dir(sample_dir)
