@@ -53,8 +53,7 @@ with col3:
             st.write(explain_response)
 
         if mode == "Run Sampling Mode" or mode == "Run All":
-            sampling_answer = st.text_input("Enter your Sampling Answer (Yes/No):", value="Yes")
-            if sampling_answer:
+                sampling_answer = st.number_input("Enter your Sampling Answer (odd number like 1, 3, 5...):", min_value=1, step=2)
                 with st.spinner("Running Sampling Answer..."):
                     final_decision, all_question_responses, selection_responses, summarized_responses = traditional_controller.sampling_answer(img1, img2, sampling_answer)
 
