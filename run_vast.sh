@@ -1,2 +1,2 @@
-CUDA_VISIBLE_DEVICES=7 python "[script]eval_bench.py" --img_dir lfw/lfw/images --pair_path lfw/lfw/500_pair.txt --pretrained_lvlm llava-onevision-qwen2-7b-ov --model_name_lvlm llava_qwen --llm_model Llama-7b --num_samples 5
-CUDA_VISIBLE_DEVICES=7 python "[script]eval_bench.py" --img_dir lfw/lfw/images --pair_path lfw/lfw/500_pair.txt --pretrained_lvlm llava-onevision-qwen2-7b-ov --model_name_lvlm llava_qwen --llm_model Llama-7b --num_samples 3
+CUDA_VISIBLE_DEVICES=7 python "[script]eval_bench.py" --img_dir lfw/lfw/images --pair_path lfw/lfw/500_pair.txt --pretrained_lvlm llava-next-interleave-qwen-7b --model_name_lvlm llava_qwen --llm_model Llama-7b --num_samples 5
+CUDA_VISIBLE_DEVICES=7 python "[script]eval_bench.py" --img_dir lfw/lfw/images --pair_path lfw/lfw/500_pair.txt --pretrained_lvlm llava-next-interleave-qwen-7b --model_name_lvlm llava_qwen --llm_model Llama-7b --num_samples 3
