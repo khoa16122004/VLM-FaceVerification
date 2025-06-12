@@ -55,9 +55,11 @@ with col3:
             st.write(explain_response)
 
         if mode == "Run Sampling Mode" or mode == "Run All":
-            with st.spinner("Running Sampling Answer..."):
-                final_decision, _, _, _ = traditional_controller.sampling_answer(img1, img2)
+            sampling_answer = st.text_input("Enter your Sampling Answer (Yes/No):", value="Yes")
+            if sampling_answer:
+                with st.spinner("Running Sampling Answer..."):
+                    final_decision, _, _, _ = traditional_controller.sampling_answer(img1, img2, sampling_answer)
 
-            st.success("✅ Sampling Result:")
-            st.subheader("🧠 Final Decision")
-            st.write(final_decision)
+                st.success("✅ Sampling Result:")
+                st.subheader("🧠 Final Decision")
+                st.write(final_decision)
