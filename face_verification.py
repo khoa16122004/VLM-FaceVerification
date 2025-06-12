@@ -44,11 +44,11 @@ class FaceVerification:
     @torch.no_grad()
     def sampling_answer(self, img1, img2, num_samples=3, temparature=0.8):
         questions = [
-            "Do the eyes of the two individuals have similar size and shape?",
-            "Is there a noticeable difference in the nose length and width between the two individuals?",
-            "Are the mouths of the two individuals similar in terms of lip thickness and symmetry?",
-            "Do the facial structures, such as the jaw and chin, appear similar?",
-            "Do the individuals have similar eyebrow shapes, density, or gaps between brows?"
+            "Do the two individuals appear to be of the same gender?",
+            "Is there a noticeable difference in skin tone or complexion between the two individuals?",
+            "Do the individuals have similar hair color, length, or style?",
+            "Do they appear to be in the same age group based on facial features such as wrinkles or skin?",
+            "Are there any distinctive facial marks or features (e.g., freckles, moles, scars) that set the individuals apart?"
         ]
         
         selection_voting = (

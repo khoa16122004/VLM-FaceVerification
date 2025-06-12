@@ -7,7 +7,7 @@ num_same = 0
 num_diff = 0
 same_lines = []
 diff_lines = []
-exec_num = 500
+exec_num = 250
 
 for line in lines:
     if len(line) == 3 and num_same < exec_num:
