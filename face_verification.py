@@ -58,7 +58,7 @@ class FaceVerification:
         )
         
         conclusion_summarize_prompt = (
-            "Summarize the following multiple responses into a concise consensus statement:"
+            "Summarize the following multiple responses into a concise statement that reflects the majority opinion:"
         )
 
         conclusion_prompt_template = (
