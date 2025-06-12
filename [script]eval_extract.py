@@ -19,7 +19,7 @@ def main(args):
     # extract llm
     llm = LlamaService("Llama-7b")
     
-    output_path = args.input_dir + ".txt"
+    output_path = os.path.join(args.input_dir, "extracted_answers.txt")
     with open(output_path, "w") as f:
         
 
