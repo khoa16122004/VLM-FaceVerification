@@ -29,6 +29,7 @@ def main(args):
                 decision = decision_file.read().strip()
                 # print("Decision:", decision)
                 output = extract_answer(decision, llm)
+                print("Output: ", output)
                 # print(output)
                 f.write(output + "\n")
 
