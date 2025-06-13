@@ -10,7 +10,7 @@ def get_face_encoder(model_name):
     if model_name == "restnet_vggface":       
         img_size = 160      
         model = InceptionResnetV1("vggface2")
-        cp_pack = "../pretrained_model/vggface2.pt"
+        cp_pack = "traditional_pretrained/vggface2.pt"
         torch_pack = torch.load(cp_pack)
         model.load_state_dict(torch_pack)
         
@@ -18,7 +18,7 @@ def get_face_encoder(model_name):
         img_size = 160      
 
         model =  InceptionResnetV1("casia-webface")
-        cp_pack = "../pretrained_model/webface.pt"
+        cp_pack = "traditional_pretrained/webface.pt"
         torch_pack = torch.load(cp_pack)
         model.load_state_dict(torch_pack)
         
