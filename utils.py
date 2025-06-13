@@ -102,7 +102,7 @@ def extract_answer(text, llm):
         "Respond with one word only: 'same' or 'different'."
     )
     prompt = text
-
+    print("text: ", text)
     response = llm.text_to_text(system_prompt, prompt)[0].strip().lower()
 
     # Nếu phản hồi không phải là "same" hoặc "different", cố gắng trích xuất bằng regex
