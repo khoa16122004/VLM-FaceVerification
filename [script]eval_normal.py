@@ -20,7 +20,7 @@ def main(args):
     controller = FaceVerification(vlm_model=vlm_info, llm_model=llm_info)
 
     # Output dir
-    output_root = f"seed={args.seed}_direct={args.direct_return}_vlm={args.pretrained_lvlm}"
+    output_root = f"{args.prefix}_seed={args.seed}_direct={args.direct_return}_vlm={args.pretrained_lvlm}"
     ensure_dir(output_root)
 
     for i in tqdm(range(args.start_index, len(dataset)), desc="Processing Samples"):
