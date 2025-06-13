@@ -99,7 +99,8 @@ def save_json(filepath, data):
 def extract_answer(text, llm):
     system_prompt = (
         "Extract whether the two facial images described in the paragraph belong to the same person or not. "
-        "Respond with one word only: 'same' or 'different'."
+        "Respond with one word only: 'same' or 'different'.",
+        "Don't return any things else like 'maybe'"
     )
     prompt = text
     print("text: ", text)
