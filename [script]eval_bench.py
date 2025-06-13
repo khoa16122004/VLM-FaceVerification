@@ -25,7 +25,7 @@ def main(args):
         raise ValueError("Invalid controller type")
 
     # Output dir
-    output_root = f"seed={args.seed}_controller={args.controller}_vlm={args.pretrained_lvlm}_llm={args.llm_model}_num_samples={args.num_samples}"
+    output_root = f"{args.prefix}_seed={args.seed}_controller={args.controller}_vlm={args.pretrained_lvlm}_llm={args.llm_model}_num_samples={args.num_samples}"
     ensure_dir(output_root)
 
     if not args.recheck_path:
@@ -73,5 +73,6 @@ if __name__ == "__main__":
     parser.add_argument("--start_index", type=int, default=0)
     parser.add_argument("--num_samples", type=int, default=9)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--prefix", type=str, default="")
     args = parser.parse_args()
     main(args)
