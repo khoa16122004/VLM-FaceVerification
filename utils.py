@@ -113,6 +113,7 @@ def extract_answer(text, llm):
         else:
             # Gọi lại mô hình nếu vẫn không rõ ràng
             response = llm.text_to_text(system_prompt, prompt)[0].strip().lower()
-
+        print(response)
+        
     return response
     
