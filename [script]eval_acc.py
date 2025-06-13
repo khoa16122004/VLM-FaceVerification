@@ -50,6 +50,8 @@ def main(args):
                 acc_diff += 1
             else:
                 wrong_diff_indexes.append(str(i))
+                
+        print(output)
 
     same_acc = acc_same / total_same if total_same else 0
     diff_acc = acc_diff / total_diff if total_diff else 0
