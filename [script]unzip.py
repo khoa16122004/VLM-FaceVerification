@@ -1,7 +1,7 @@
 import zipfile
 import os
 
-def unzip_lfw(zip_path="lfw.zip", extract_to="lfw"):
+def unzip_lfw(zip_path="lfw_preprocess.zip", extract_to="lfw_preprocess"):
     if not os.path.exists(zip_path):
         raise FileNotFoundError(f"Zip file not found: {zip_path}")
 
