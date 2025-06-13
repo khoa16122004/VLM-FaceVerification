@@ -23,16 +23,15 @@ def main(args):
     output_root = f"seed={args.seed}_direct={args.direct_return}_vlm={args.pretrained_lvlm}"
     ensure_dir(output_root)
 
-    if not args.recheck_path:
-        for i in tqdm(range(args.start_index, len(dataset)), desc="Processing Samples"):
-            img1, img2, label = dataset[i]
+    for i in tqdm(range(args.start_index, len(dataset)), desc="Processing Samples"):
+        img1, img2, label = dataset[i]
 
-            response = controller.simple_answer(img1, img2)
-            
-            sample_dir = os.path.join(output_root, f"sample_{i}")
-            ensure_dir(sample_dir)
+        response = controller.simple_answer(img1, img2)
+        
+        sample_dir = os.path.join(output_root, f"sample_{i}")
+        ensure_dir(sample_dir)
 
-            save_txt(os.path.join(sample_dir, "decision.txt"), response)
+        save_txt(os.path.join(sample_dir, "decision.txt"), response)
     
 
 if __name__ == "__main__":
