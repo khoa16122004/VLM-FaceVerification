@@ -44,6 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--llm_model", type=str, default=None)
     parser.add_argument("--direct_return", type=int, default=1)
+    parser.add_argument("--prefix", type=str, default="")
 
     args = parser.parse_args()
     main(args)
