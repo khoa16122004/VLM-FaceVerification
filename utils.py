@@ -109,9 +109,11 @@ def extract_answer(text, llm):
 
     # Nếu phản hồi không phải là "same" hoặc "different", cố gắng trích xuất bằng regex
     while response not in ["same", "different"]:
-        match = re.search(r'\b(same|different)\b', response)
+        match = re.search(r'\b(same|different|maybe)\b', response)
         if match:
             response = match.group(1)
+            if response == "maybe":
+                response = "same"
         else:
             # Gọi lại mô hình nếu vẫn không rõ ràng
             response = llm.text_to_text(system_prompt, prompt)[0].strip().lower()
