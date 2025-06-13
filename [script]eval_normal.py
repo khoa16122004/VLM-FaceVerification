@@ -26,7 +26,7 @@ def main(args):
     for i in tqdm(range(args.start_index, len(dataset)), desc="Processing Samples"):
         img1, img2, label = dataset[i]
 
-        response = controller.simple_answer(img1, img2)
+        response = controller.simple_answer(img1, img2, direct_return=args.direct_return)
         
         sample_dir = os.path.join(output_root, f"sample_{i}")
         ensure_dir(sample_dir)
